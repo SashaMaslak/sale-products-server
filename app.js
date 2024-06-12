@@ -1,7 +1,6 @@
 const express = require("express")
 const logger = require("morgan")
 const cors = require("cors")
-const jwt = require("jsonwebtoken")
 const authRouter = require("./src/routes/authRouter")
 
 const app = express()
