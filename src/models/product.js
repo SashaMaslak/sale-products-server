@@ -2,7 +2,6 @@ const { Schema, model } = require("mongoose")
 const Joi = require("joi")
 
 const { handleMongooseError } = require("../helpers")
-const { User } = require("./user")
 
 const productSchema = new Schema(
   {
@@ -33,7 +32,7 @@ const productSchema = new Schema(
       maxlength: 500,
       default: "",
     },
-    performerAdd: {
+    creator: {
       type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
@@ -83,7 +82,7 @@ const addProductSchema = Joi.object({
 })
 
 // *-* Parameter schemas *-*
-const paramsNoticeSchema = Joi.object({
+const paramsProductSchema = Joi.object({
   page: Joi.number().min(0).messages({
     "number.base": "The page must be a number.",
     "number.min": "The page must be not less than 0.",
@@ -103,8 +102,8 @@ const paramsNoticeSchema = Joi.object({
 })
 
 const schemas = {
-  addNoticeSchema,
-  paramsNoticeSchema,
+  addProductSchema,
+  paramsProductSchema,
 }
 
 const Product = model("product", productSchema)

@@ -1,18 +1,34 @@
-const { Types } = require("mongoose")
-const moment = require("moment")
-const cloudinary = require("cloudinary").v2
 const { Product } = require("../models/product")
-const { User } = require("../models/user")
-
 require("dotenv").config()
+const { ctrlWrapper, httpError } = require("../helpers")
 
-const {
-  ctrlWrapper,
-  HttpError,
-  objForSearch,
-  transformNotice,
-  transformMinifiedNotice,
-  transformNoticeExtended,
-  extractPublicId,
-} = require("../helpers")
-const { noticeCategories } = require("../constants")
+const getAll = async (req, res) => {
+  // const { _id: owner } = req.user
+
+  const { page = 1, limit = 25 } = req.query
+  const skip = (page - 1) * limit
+
+  let objForFind = {}
+
+  const products = await Product.find(objForFind, "-createdAt -updateAt", {
+    skip,
+    limit,
+  })
+    .sort({ _id: -1 })
+    .populate("creator")
+  res.json(products)
+}
+
+const getById = async (req, res) => {
+  const { productId } = req.params
+  const product = await Product.findById(productId).populate("creator")
+  if (!product) {
+    throw httpError(404, "Product not found")
+  }
+  res.json({ product })
+}
+
+module.exports = {
+  getAll: ctrlWrapper(getAll),
+  getById: ctrlWrapper(getById),
+}

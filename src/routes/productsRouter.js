@@ -7,10 +7,10 @@ const productsRouter = express.Router()
 
 productsRouter.get(
   "/",
-  validateParams(schemas.paramsNoticeSchema),
+  validateParams(schemas.paramsProductSchema),
   productCtrl.getAll
 )
 
-// router.get("/:productId", isValidId, productCtrl.getById)
+productsRouter.get("/:productId", isValidId, productCtrl.getById)
 
 module.exports = productsRouter
