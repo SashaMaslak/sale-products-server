@@ -10,7 +10,7 @@ const getAll = async (req, res) => {
 
   let objForFind = {}
 
-  const products = await Product.find(objForFind, "id", {
+  const products = await Product.find(objForFind, "-createdAt -updateAt", {
     skip,
     limit,
   })
