@@ -10,13 +10,16 @@ const getAll = async (req, res) => {
 
   let objForFind = {}
 
+  const totalResult = await Product.countDocuments(objForFind)
+  const pages = Math.ceil(totalResult / limit)
+
   const products = await Product.find(objForFind, "-createdAt -updateAt", {
     skip,
     limit,
   })
     .sort({ _id: -1 })
     .populate("creator")
-  res.json(products)
+  res.json({ products, pages })
 }
 
 const getById = async (req, res) => {
@@ -25,6 +28,7 @@ const getById = async (req, res) => {
   if (!product) {
     throw httpError(404, "Product not found")
   }
+
   res.json({ product })
 }
 
