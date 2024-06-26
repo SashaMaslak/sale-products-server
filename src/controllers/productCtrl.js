@@ -28,7 +28,7 @@ const getById = async (req, res) => {
     throw httpError(404, "Product not found")
   }
 
-  res.json({ product })
+  res.json(product)
 }
 
 module.exports = {
