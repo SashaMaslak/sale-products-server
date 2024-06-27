@@ -31,7 +31,39 @@ const getById = async (req, res) => {
   res.json(product)
 }
 
+const add = async (req, res) => {
+  const result = await Product.create({ ...req.body })
+  res.status(201).json(result)
+}
+
+const deleteById = async (req, res) => {
+  const { productId } = req.params
+  console.log("req.params-delete->", req.params)
+  const result = await Product.findOneAndDelete(productId)
+  if (!result) {
+    throw httpError(404, "Not found")
+  }
+
+  res.json({ message: "Delete success" })
+}
+
+const updateById = async (req, res) => {
+  const { productId } = req.params
+  console.log("req.params-->", req.params)
+
+  const result = await Product.findByIdAndUpdate(productId, req.body, {
+    new: true,
+  })
+  if (!result) {
+    throw httpError(404, "Not found")
+  }
+  res.json(result)
+}
+
 module.exports = {
   getAll: ctrlWrapper(getAll),
   getById: ctrlWrapper(getById),
+  add: ctrlWrapper(add),
+  deleteById: ctrlWrapper(deleteById),
+  updateById: ctrlWrapper(updateById),
 }

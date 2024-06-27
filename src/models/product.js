@@ -35,7 +35,7 @@ const productSchema = new Schema(
     creator: {
       type: Schema.Types.ObjectId,
       ref: "user",
-      required: true,
+      required: false,
     },
   },
   { versionKey: false, timestamps: true }
@@ -70,14 +70,26 @@ const addProductSchema = Joi.object({
   }),
 
   // *-* quantity *-*
-  price: Joi.number().messages({
+  quantity: Joi.number().messages({
     "number.base": "The price must be a number.",
   }),
 
-  // *-* comments *-*
+  // *-* description *-*
   description: Joi.string().max(500).messages({
     "string.base": "The description must be a string.",
     "string.max": "The type must be not greater than 500 symbols.",
+  }),
+
+  // *-* image *-*
+  image: Joi.string().max(500).messages({
+    "string.base": "The image must be a string.",
+    "string.max": "The type must be not greater than 500 symbols.",
+  }),
+
+  // *-* creator *-*
+  creator: Joi.string().max(32).messages({
+    "string.base": "The creator must be a string.",
+    "string.max": "The type must be not greater than 32 symbols.",
   }),
 })
 
