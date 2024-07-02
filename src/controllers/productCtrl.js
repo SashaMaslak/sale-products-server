@@ -44,7 +44,7 @@ const deleteById = async (req, res) => {
     throw httpError(404, "Not found")
   }
 
-  res.json({ message: "Delete success", result, productId })
+  res.json({ message: "Delete success" })
 }
 
 const updateById = async (req, res) => {
