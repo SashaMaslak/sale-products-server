@@ -51,7 +51,7 @@ const updateById = async (req, res) => {
   const { productId } = req.params
   console.log("req.params-->", req.params)
 
-  const result = await Product.findByIdAndUpdate(productId, req.body, {
+  const result = await Product.findByIdAndUpdate({ _id: productId }, req.body, {
     new: true,
   })
   if (!result) {
