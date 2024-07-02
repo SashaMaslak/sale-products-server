@@ -39,12 +39,12 @@ const add = async (req, res) => {
 const deleteById = async (req, res) => {
   const { productId } = req.params
   console.log("req.params-delete->", req.params)
-  const result = await Product.findOneAndDelete(productId)
+  const result = await Product.findOneAndDelete({ _id: productId })
   if (!result) {
     throw httpError(404, "Not found")
   }
 
-  res.json({ message: "Delete success" })
+  res.json({ message: "Delete success", result, productId })
 }
 
 const updateById = async (req, res) => {
